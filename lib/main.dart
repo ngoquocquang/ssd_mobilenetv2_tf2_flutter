@@ -47,6 +47,19 @@ class _MyAppState extends State<MyApp> {
     predictImage(_image);
   }
 
+  Future predictImageCamera() async {
+    final picker  = ImagePicker();
+
+    var image = await picker.pickImage(source: ImageSource.camera);
+
+    if (image == null) return;
+    setState(() {
+      _image = File(image.path);
+      _busy = true;
+    });
+    predictImage(_image);
+  }
+
   Future predictImage(File image) async {
     if (image == null) return;
 
@@ -197,11 +210,22 @@ class _MyAppState extends State<MyApp> {
       body: Stack(
         children: stackChildren,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: predictImagePicker,
-        tooltip: 'Pick Image',
-        child: Icon(Icons.image),
-      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget> [
+          FloatingActionButton(
+            onPressed: predictImagePicker,
+            tooltip: 'Pick Image',
+            child: Icon(Icons.image),
+          ),
+          SizedBox(width: 10,),
+          FloatingActionButton(
+            onPressed: predictImageCamera,
+            tooltip: 'Take Photo Image',
+            child: Icon(Icons.camera_alt),
+          ),
+        ],
+      )
     );
   }
 }
