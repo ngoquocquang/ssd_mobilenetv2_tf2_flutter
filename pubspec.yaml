@@ -28,6 +28,8 @@ dev_dependencies:
   
   image: ^3.0.2
 
+  camera: ^0.8.1+7
+
   tflite:
 
   test: ^1.12.0

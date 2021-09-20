@@ -8,10 +8,17 @@ import 'package:image/image.dart' as img;
 
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tflite_example/realtime//live_camera.dart';
+import 'package:camera/camera.dart';
 
-void main() => runApp(new App());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
 
+  runApp(new App());
+}
 
+List<CameraDescription> cameras;
 var detectedObj = [];
 
 class App extends StatelessWidget {
@@ -223,6 +230,17 @@ class _MyAppState extends State<MyApp> {
             onPressed: predictImageCamera,
             tooltip: 'Take Photo Image',
             child: Icon(Icons.camera_alt),
+          ),
+          SizedBox(width: 10,),
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => LiveFeed(cameras),
+              ),
+              );
+            },
+            tooltip: 'Real Time Detection',
+            child: Icon(Icons.video_camera_back),
           ),
         ],
       )
